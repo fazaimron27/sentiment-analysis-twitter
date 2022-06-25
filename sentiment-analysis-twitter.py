@@ -1,6 +1,7 @@
 import os
 import json
 import tweepy
+from datetime import date
 from textblob import TextBlob 
 from dotenv import load_dotenv
 
@@ -37,13 +38,19 @@ all_polarity = 0
 with open('data/tweets.json', 'r') as dataset:
     tweets = json.load(dataset)
     for tweet in tweets:
-        print('tweet: ', tweet['text'])
+        today = date.today()
+        user_created_at = tweet['user_created_at'].split(' ')[5]
+        user_followers = tweet['user_followers']
+        gap = today.year - int(user_created_at)
+        if gap >= 3 and user_followers > 1000:
+            print('tweet: ', tweet['text'])
+            print('user_created_at: ', tweet['user_created_at'])
 
-        analysis = TextBlob(tweet['text'])
-        print(analysis.sentiment)
-        all_polarity += analysis.polarity 
+            analysis = TextBlob(tweet['text'])
+            print(analysis.sentiment)
+            all_polarity += analysis.polarity 
 
-        print('')
+            print('')
     
 if all_polarity/100 > 0:
     print(all_polarity/100)
