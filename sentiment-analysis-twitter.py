@@ -43,8 +43,11 @@ with open('data/tweets.json', 'r') as dataset:
         user_followers = tweet['user_followers']
         gap = today.year - int(user_created_at)
         if gap >= 3 and user_followers > 1000:
-            print('tweet: ', tweet['text'])
-            print('user_created_at: ', tweet['user_created_at'])
+            print('user:', tweet['user'])
+            print('username:', '@'+ tweet['username'])
+            print('tweet:', tweet['text'])
+            print('user_created_at:', tweet['user_created_at'])
+            print('user_followers:', tweet['user_followers'])
 
             analysis = TextBlob(tweet['text'])
             print(analysis.sentiment)
